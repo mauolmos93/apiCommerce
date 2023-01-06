@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,6 +23,7 @@ public class ProductoController {
     IProductoService prodServ;
     
     @GetMapping ("/productos")
+    @ResponseBody
     public List<Producto> getProductos (){
     
         return prodServ.getProducts();
@@ -29,11 +31,19 @@ public class ProductoController {
     
     }
     
-    @GetMapping ("productos/{codigoProducto}")
+    @GetMapping ("/productos/{codigoProducto}")
+    @ResponseBody
     public Producto findProduct (@PathVariable Long codigoProducto) {
     
         return prodServ.findProduct(codigoProducto);
     
+    }
+    
+    @GetMapping ("/productos/falta_stock")
+    @ResponseBody
+    public List<Producto> getFaltaStock(){
+        
+        return prodServ.getFaltaStock();
     }
     
     @PostMapping ("/productos/crear")
@@ -51,12 +61,28 @@ public class ProductoController {
                                  @RequestParam(required=false, name = "nombre")String nuevoNombre,
                                  @RequestParam(required=false, name = "marca")String nuevaMarca,
                                  @RequestParam(required=false, name = "costo")Double nuevoCosto,
-                                 @RequestParam(required=false, name = "cantidadDisponible")Double nuevaCantidad){
+                                 @RequestParam(required=false, name = "cantidadDisponible")Double nuevaCantidad,
+                                 @RequestParam(required=false, name = "borrado")boolean nuevoBorrado){
         
-        prodServ.editProduct(codigoOriginal, codigoNuevo, nuevoNombre, nuevaMarca, nuevoCosto, nuevaCantidad);
+        prodServ.editProduct(codigoOriginal, codigoNuevo, nuevoNombre, nuevaMarca, nuevoCosto, nuevaCantidad,nuevoBorrado);
         return prodServ.findProduct(codigoNuevo);
     
     
+    }
+    
+    @PostMapping ("/productos/activate_logico/{codigoProducto}")
+    public String activateProductLogic (@PathVariable Long codigoProducto) {
+        prodServ.activateDeleteProductLogic(codigoProducto);
+        
+        return "El producto fue activado correctamente";
+    
+    }
+    
+    @DeleteMapping ("/productos/borrado_logico/{codigoProducto}")
+    public String deleteProductLogic (@PathVariable Long codigoProducto) {
+        prodServ.deleteProductLogic(codigoProducto);
+        
+        return "El producto fue borrado correctamente";
     }
     
     @DeleteMapping ("/productos/eliminar/{codigoProducto}")

@@ -5,8 +5,9 @@ import com.mauricio.apiCommerce.model.Cliente;
 import com.mauricio.apiCommerce.repository.IClienteRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class ClienteService implements IClienteService {
     
     @Autowired

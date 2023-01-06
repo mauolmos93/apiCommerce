@@ -11,8 +11,12 @@ public interface IProductoService {
     public List<Producto> getProducts();
     public Producto findProduct(Long codigoProducto);
     public void deleteProduct(Long codigoProducto);
+    public void deleteProductLogic(Long codigoProducto);
+    public void activateDeleteProductLogic(Long codigoProducto);
     public void editProduct(Long codigoOriginal, Long codigoNuevo, 
                             String nuevoNombre, String nuevaMarca,
-                            Double nuevoCosto, Double nuevaCantidadDisponible);
+                            Double nuevoCosto, Double nuevaCantidadDisponible,
+                            boolean borrado);
+    public List<Producto> getFaltaStock();
     
 }

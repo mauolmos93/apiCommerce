@@ -1,6 +1,8 @@
 
 package com.mauricio.apiCommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +14,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @Entity
+@JsonIgnoreProperties("listaVentas") // esta anotation hace que en las solicitudes  "Get", no muestre la lista de ventas dentro de cada producto.
 public class Producto {
     
     @Id
@@ -23,6 +26,7 @@ public class Producto {
     private Double cantidadDisponible;
     private boolean borrado;
     @ManyToMany(mappedBy="listaProductos")
+    @JsonIgnore
     private List<Venta>listaVentas;
   
 
